@@ -21,3 +21,12 @@ export type CategoriesType = {
   big: CarparkDataType[];
   large: CarparkDataType[];
 };
+
+export type CategoriesKeyType = keyof CategoriesType;
+
+export type CarparkMetricsType = {
+  highestLotsAvailable: string | number;
+  lowestLotsAvailable: string | number;
+  highestLotsAvailableArray: Array<string | number>;
+  lowestLotsAvailableArray: Array<string | number>;
+};

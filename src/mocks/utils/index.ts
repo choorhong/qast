@@ -1,24 +1,19 @@
 import { ItemType } from "../interfaces";
 import {
-  calculateCpMinMaxAvailability,
   categorizeLotSize,
   combineCarparkData,
+  retrieveCpMinMaxAvailability,
 } from "./helpers";
 
 export const retrieveCarparkCategoryData = (item: ItemType[]) => {
+  // Combine the total lots of a carpark
   const combinedCarparkData = combineCarparkData(item);
 
+  // Categorize the carpark based on their total lots
   const categories = categorizeLotSize(combinedCarparkData[0].carpark_data);
 
-  const smallLotSizeInfo = calculateCpMinMaxAvailability(categories.small);
-  const mediumLotSizeInfo = calculateCpMinMaxAvailability(categories.medium);
-  const bigLotSizeInfo = calculateCpMinMaxAvailability(categories.big);
-  const largeLotSizeInfo = calculateCpMinMaxAvailability(categories.large);
+  // Retrieve the highest and lowest lots availability of a category
+  const lotSizeInfo = retrieveCpMinMaxAvailability(categories);
 
-  return {
-    small: smallLotSizeInfo,
-    medium: mediumLotSizeInfo,
-    big: bigLotSizeInfo,
-    large: largeLotSizeInfo,
-  };
+  return lotSizeInfo;
 };

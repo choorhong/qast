@@ -3,6 +3,8 @@ import {
   ItemType,
   CarparkDataType,
   CategoriesType,
+  CarparkMetricsType,
+  CategoriesKeyType,
 } from "../interfaces";
 
 /**
@@ -99,7 +101,9 @@ export const categorizeLotSize = (data: CarparkDataType[]) => {
  * @param data
  * @returns
  */
-export const calculateCpMinMaxAvailability = (data: CarparkDataType[]) => {
+export const calculateCpMinMaxAvailability = (
+  data: CarparkDataType[]
+): CarparkMetricsType => {
   let highestLotsAvailable = 0;
   let lowestLotsAvailable = Infinity;
   const highestLotsAvailableArray: string[] = [];
@@ -131,4 +135,16 @@ export const calculateCpMinMaxAvailability = (data: CarparkDataType[]) => {
     highestLotsAvailableArray,
     lowestLotsAvailableArray,
   };
+};
+
+export const retrieveCpMinMaxAvailability = (data: CategoriesType) => {
+  const result = {} as Record<CategoriesKeyType, CarparkMetricsType>;
+
+  Object.entries(data).forEach((element) => {
+    const carparkData = element[1];
+    const metrics = calculateCpMinMaxAvailability(carparkData);
+    result[element[0] as CategoriesKeyType] = metrics;
+  });
+
+  return result;
 };

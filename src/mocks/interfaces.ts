@@ -30,3 +30,8 @@ export type CarparkMetricsType = {
   highestLotsAvailableArray: Array<string | number>;
   lowestLotsAvailableArray: Array<string | number>;
 };
+
+export type ResultType = {
+  timestamp: string;
+  result: Record<CategoriesKeyType, CarparkMetricsType>;
+};

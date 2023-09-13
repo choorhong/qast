@@ -1,0 +1,34 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.container {
+  overflow-wrap: anywhere;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.info {
+  min-width: 50%;
+  flex-grow: 1;
+}
+
+.label {
+  margin: 0 0 0.2rem 0;
+  text-decoration: underline;
+}
+
+.value {
+  margin-top: 0;
+}
+
+@media (max-width: 640px) {
+  .info-container {
+    flex-direction: column;
+  }
+}

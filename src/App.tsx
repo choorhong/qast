@@ -58,7 +58,9 @@ function App() {
             </fieldset>
           ))}
         </>
-      ) : null}
+      ) : (
+        <h1>Loading.....</h1>
+      )}
     </div>
   );
 }

@@ -5,13 +5,13 @@ This template provides a minimal setup to get React working in Vite.
 ## Run the project with docker-compose (recommended):
 
 1. Run `docker-compose up -d` in the terminal.
-2. Open [http://localhost:3030]{http://localhost:3030} to view it in the browser.
+2. Open [http://localhost:3030](http://localhost:3030) to view it in the browser.
 
 ## Run the project with docker commands:
 
 1. Run `docker build -t qas_image .` in the terminal. For example:
 2. Run `docker run -p 5178:5173 --name qas_container  -d --rm -it qas_image` in the terminal.
-3. Open [http://localhost:5178]{http://localhost:5178} to view it in the browser.
+3. Open [http://localhost:5178](http://localhost:5178) to view it in the browser.
 
 ## Run the project without docker commands:
 

@@ -32,25 +32,31 @@ export const combineCarparkInfo = (carparkInfo: CarparkInfoType[]) => {
 };
 
 /**
+ * Generate a centralized carpark info of a carpark numbr (carpark_number)
+ * @param item
+ * @returns
+ */
+
+const generateCarparkData = (item: ItemType) => {
+  return item.carpark_data.map((carparkItem: CarparkDataType) => {
+    const combinedCarparkInfo = combineCarparkInfo(carparkItem.carpark_info);
+
+    return {
+      carpark_info: combinedCarparkInfo,
+      carpark_number: carparkItem.carpark_number,
+      update_datetime: carparkItem.update_datetime,
+    };
+  });
+};
+
+/**
  * Show carpark data after combining multiple lots of a car park (if any).
  * @param items
  * @returns
  */
 export const combineCarparkData = (items: ItemType[]) => {
   const combinedData = items.map((item) => {
-    const carparkData = item.carpark_data.map(
-      (carparkItem: CarparkDataType) => {
-        const combinedCarparkInfo = combineCarparkInfo(
-          carparkItem.carpark_info
-        );
-
-        return {
-          carpark_info: combinedCarparkInfo,
-          carpark_number: carparkItem.carpark_number,
-          update_datetime: carparkItem.update_datetime,
-        };
-      }
-    );
+    const carparkData = generateCarparkData(item);
 
     return {
       timestamp: item.timestamp,
@@ -64,7 +70,7 @@ export const combineCarparkData = (items: ItemType[]) => {
 // - small : less than 100 lots ( < 100 )
 // - medium : 100 lots or more, but less than 300 lots ( >= 100 && < 300 )
 // - big : 300 lots or more, but less than 400 lots ( >= 300 && < 400 )
-// - large : 400 lots or more ( >= 100 )
+// - large : 400 lots or more ( >= 400 )
 
 /**
  * Categorize carparks based on their respective total lots

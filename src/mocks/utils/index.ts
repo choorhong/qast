@@ -1,6 +1,6 @@
 import { ItemType } from "../interfaces";
 import {
-  categorizeLotSize,
+  categorizeCarparkLotSize,
   combineCarparkData,
   retrieveCpMinMaxAvailability,
 } from "./helpers";
@@ -10,7 +10,9 @@ export const retrieveCarparkCategoryData = (item: ItemType[]) => {
   const combinedCarparkData = combineCarparkData(item);
 
   // Categorize the carpark based on their total lots
-  const categories = categorizeLotSize(combinedCarparkData[0].carpark_data);
+  const categories = categorizeCarparkLotSize(
+    combinedCarparkData[0].carpark_data
+  );
 
   // Retrieve the highest and lowest lots availability of a category
   const lotSizeInfo = retrieveCpMinMaxAvailability(categories);

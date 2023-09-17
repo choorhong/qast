@@ -41,11 +41,13 @@ const generateCarparkData = (item: ItemType) => {
   return item.carpark_data.map((carparkItem: CarparkDataType) => {
     const combinedCarparkInfo = combineCarparkInfo(carparkItem.carpark_info);
 
-    return {
+    const info = {
       carpark_info: combinedCarparkInfo,
       carpark_number: carparkItem.carpark_number,
       update_datetime: carparkItem.update_datetime,
     };
+
+    return info;
   });
 };
 
@@ -55,9 +57,14 @@ const generateCarparkData = (item: ItemType) => {
  * @returns
  */
 export const combineCarparkData = (items: ItemType[]) => {
-  const combinedData = items.map((item) => {
-    const carparkData = generateCarparkData(item);
+  const categories = initializeCategories();
 
+  const combinedData = items.map((item) => {
+    const carparkData: CarparkDataType[] = generateCarparkData(item);
+
+    const cat = categorizeLotSize(carparkData);
+
+    console.log("cat", cat);
     return {
       timestamp: item.timestamp,
       carpark_data: carparkData,
@@ -72,31 +79,42 @@ export const combineCarparkData = (items: ItemType[]) => {
 // - big : 300 lots or more, but less than 400 lots ( >= 300 && < 400 )
 // - large : 400 lots or more ( >= 400 )
 
-/**
- * Categorize carparks based on their respective total lots
- * @param data
- */
-export const categorizeLotSize = (data: CarparkDataType[]) => {
-  // Initialize categories
-  const categories: CategoriesType = {
+const initializeCategories = (): CategoriesType => {
+  return {
     small: [],
     medium: [],
     big: [],
     large: [],
   };
+};
+
+const categorizeLotSize = (
+  item: CarparkDataType,
+  categories: CategoriesType
+) => {
+  const totalLots = +item.carpark_info[0].total_lots;
+
+  if (totalLots < 100) {
+    categories.small.push(item);
+  } else if (totalLots >= 100 && totalLots < 300) {
+    categories.medium.push(item);
+  } else if (totalLots >= 300 && totalLots < 400) {
+    categories.big.push(item);
+  } else {
+    categories.large.push(item);
+  }
+};
+
+/**
+ * Categorize carparks based on their respective total lots
+ * @param data
+ */
+export const categorizeCarparkLotSize = (data: CarparkDataType[]) => {
+  // Initialize categories
+  const categories = initializeCategories();
 
   data.forEach((item) => {
-    const totalLots = +item.carpark_info[0].total_lots;
-
-    if (totalLots < 100) {
-      categories.small.push(item);
-    } else if (totalLots >= 100 && totalLots < 300) {
-      categories.medium.push(item);
-    } else if (totalLots >= 300 && totalLots < 400) {
-      categories.big.push(item);
-    } else {
-      categories.large.push(item);
-    }
+    categorizeLotSize(item, categories);
   });
 
   return categories;

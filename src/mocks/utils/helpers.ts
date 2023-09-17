@@ -5,6 +5,7 @@ import {
   CategoriesType,
   CarparkMetricsType,
   CategoriesKeyType,
+  CombinedAndCategorizedCarparkDataType,
 } from "../interfaces";
 
 /**
@@ -156,6 +157,11 @@ export const calculateCpMinMaxAvailability = (
   };
 };
 
+/**
+ * Show the calculated data of all carpark categories
+ * @param data
+ * @returns
+ */
 export const retrieveCpMinMaxAvailability = (data: CategoriesType) => {
   const result = {} as Record<CategoriesKeyType, CarparkMetricsType>;
 
@@ -166,4 +172,43 @@ export const retrieveCpMinMaxAvailability = (data: CategoriesType) => {
   });
 
   return result;
+};
+
+/**
+ * Each car park may have different lots
+ * 1. Combine and calculate the total number of lots & available lots of a carpark
+ * 2. Categorize carparks based on their respective total lots
+ * @param items
+ * @returns
+ */
+export const combineAndCategorizeCarparkData = (items: ItemType[]) => {
+  return items.map((item) => {
+    const cpData: CarparkDataType[] = generateCarparkData(item);
+    const categorizedCarparkLotSize = categorizeCarparkLotSize(cpData);
+
+    return {
+      timestamp: item.timestamp,
+      categorized_carpark_data: categorizedCarparkLotSize,
+    };
+  });
+};
+
+/**
+ * Calculate and show the relevant data of a carpark category
+ * @param data
+ * @returns
+ */
+export const calculateCarparkMinMaxAvailability = (
+  items: CombinedAndCategorizedCarparkDataType
+) => {
+  return items.map((item) => {
+    const lotSizeInfo = retrieveCpMinMaxAvailability(
+      item.categorized_carpark_data
+    );
+
+    return {
+      timestamp: item.timestamp,
+      lotSizeInfo,
+    };
+  });
 };

@@ -33,5 +33,13 @@ export type CarparkMetricsType = {
 
 export type ResultType = {
   timestamp: string;
-  result: Record<CategoriesKeyType, CarparkMetricsType>;
+  result: {
+    timestamp: string;
+    lotSizeInfo: Record<CategoriesKeyType, CarparkMetricsType>;
+  }[];
 };
+
+export type CombinedAndCategorizedCarparkDataType = {
+  timestamp: string;
+  categorized_carpark_data: CategoriesType;
+}[];

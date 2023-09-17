@@ -33,29 +33,35 @@ function App() {
       {response ? (
         <>
           <p>Date/Time: {new Date(response.timestamp).toLocaleString()}</p>
-          {Object.entries(response.result).map(([key, value]) => (
-            <fieldset>
-              <legend>{key.toUpperCase()}</legend>
-              <div className="info-container">
-                <div className="info">
-                  <p className="label">
-                    HIGHEST ({value.highestLotsAvailable} lots available)
-                  </p>
-                  <p className="value">
-                    {value.highestLotsAvailableArray.join(", ")}
-                  </p>
-                </div>
+          {response.result.map((item, index) => (
+            <div key={`${index}-${item.timestamp}-${index}`}>
+              {Object.entries(item.lotSizeInfo).map(([key, value]) => (
+                <fieldset
+                  key={`${key}-${value.highestLotsAvailable}-${value.lowestLotsAvailable}`}
+                >
+                  <legend>{key.toUpperCase()}</legend>
+                  <div className="info-container">
+                    <div className="info">
+                      <p className="label">
+                        HIGHEST ({value.highestLotsAvailable} lots available)
+                      </p>
+                      <p className="value">
+                        {value.highestLotsAvailableArray.join(", ")}
+                      </p>
+                    </div>
 
-                <div className="info">
-                  <p className="label">
-                    LOWEST ({value.lowestLotsAvailable} lots available)
-                  </p>
-                  <p className="value">
-                    {value.lowestLotsAvailableArray.join(", ")}
-                  </p>
-                </div>
-              </div>
-            </fieldset>
+                    <div className="info">
+                      <p className="label">
+                        LOWEST ({value.lowestLotsAvailable} lots available)
+                      </p>
+                      <p className="value">
+                        {value.lowestLotsAvailableArray.join(", ")}
+                      </p>
+                    </div>
+                  </div>
+                </fieldset>
+              ))}
+            </div>
           ))}
         </>
       ) : (

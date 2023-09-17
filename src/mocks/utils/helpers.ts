@@ -57,14 +57,9 @@ const generateCarparkData = (item: ItemType) => {
  * @returns
  */
 export const combineCarparkData = (items: ItemType[]) => {
-  const categories = initializeCategories();
-
   const combinedData = items.map((item) => {
     const carparkData: CarparkDataType[] = generateCarparkData(item);
 
-    const cat = categorizeLotSize(carparkData);
-
-    console.log("cat", cat);
     return {
       timestamp: item.timestamp,
       carpark_data: carparkData,

@@ -14,7 +14,7 @@ export const handlers = [
 
     const response = await fetch(url);
     const responseBody = await response.json();
-    const result = retrieveCarparkCategoryData(responseBody.items);
+    const result = await retrieveCarparkCategoryData(responseBody.items);
 
     return res(
       ctx.status(200),
